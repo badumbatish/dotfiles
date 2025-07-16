@@ -17,8 +17,10 @@ if not vim.loop.fs_stat(lazypath) then
 end
 -- hey!
 vim.opt.rtp:prepend(lazypath)
-vim.opt.runtimepath:prepend("/Users/jjasmine/Developer/igalia/llvm-project/llvm/utils/vim/")
-vim.cmd('source /Users/jjasmine/Developer/igalia/llvm-project/llvm/utils/vim/vimrc')
+-- vim.opt.runtimepath:prepend("/Users/jjasmine/Developer/igalia/llvm-project/llvm/utils/vim/")
+-- vim.cmd('source /Users/jjasmine/Developer/igalia/llvm-project/llvm/utils/vim/vimrc')
+vim.opt.runtimepath:prepend("/home/usainzgg/Projects/github/topoly-distmem/externals/llvm-project/llvm/utils/vim/")
+vim.cmd('source /home/usainzgg/Projects/github/topoly-distmem/externals/llvm-project/llvm/utils/vim/vimrc')
 require('lazy').setup({
     { import = 'plugins' }
 }, {
