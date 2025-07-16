@@ -4,8 +4,7 @@ if [[ $# -eq 1 ]]; then
 else
     selected=$(
         (
-            find ~/Developer/github ~/Developer/igalia ~/projects  -mindepth 1 -maxdepth 1 -type d
-            find ~/Developer/nvim_proj ~/projects -mindepth 1 -maxdepth 1 -type d
+            find  ~/Projects/compilers ~/Projects/github -mindepth 1 -maxdepth 1 -type d
             find ~/.config/nvim -maxdepth 0 -type d
             echo ~/.local/share/chezmoi/
             echo ~/.zshrc
