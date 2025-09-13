@@ -8,7 +8,7 @@ local utils = require 'utils'
 --- `tblgen-lsp-server` can be installed at the llvm-project repository (https://github.com/llvm/llvm-project)
 
 local function get_command()
-  local cmd = { utils.llvm_repo .. '/build/bin/tblgen-lsp-server' }
+  local cmd = { utils.llvm_bin .. '/tblgen-lsp-server' }
   local files = vim.fs.find('tablegen_compile_commands.yml', { path = vim.fn.expand('%:p:h') .. '/build/', upward = true })
   if #files > 0 then
     local file = files[1]
@@ -21,6 +21,6 @@ end
 ---@type vim.lsp.Config
 return {
   cmd = get_command(),
-  filetypes = { 'tablegen','td' },
+  filetypes = { 'tablegen'},
   root_markers = { 'tablegen_compile_commands.yml', '.git' },
 }

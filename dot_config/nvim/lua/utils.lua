@@ -73,7 +73,7 @@ M.yank_for_conditional_break = function()
     print(M.yank_msg .. result)
 end
 
-M.llvm_repo = "/Users/jjasmine/Developer/igalia/llvm-project/"
+M.llvm_bin = "/Users/jjasmine/Developer/igalia/LLVM-20.1.7-macOS-ARM64/bin/"
 M.clangir_repo = "/Users/jjasmine/Developer/igalia/clangir/"
 
 return M
