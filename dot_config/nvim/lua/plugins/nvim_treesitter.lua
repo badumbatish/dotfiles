@@ -1,16 +1,17 @@
-local M = {
+return {
   {
     "nvim-treesitter/nvim-treesitter",
-    "nvim-treesitter/nvim-treesitter-textobjects",
+    dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
     build = ":TSUpdate",
-branch = 'master',lazy = false,
+    branch = 'master',
+    lazy = false,
     config = function()
       require("nvim-treesitter.install").update({ with_sync = true })
 
 
       require 'nvim-treesitter.configs'.setup {
         -- A list of parser names, or "all" (the five listed parsers should always be installed)
-        ensure_installed = { "all" },
+        ensure_installed = "all",
         sync_install = false,
         auto_install = true,
         highlight = { enable = true },
@@ -75,7 +76,5 @@ branch = 'master',lazy = false,
       require("treesitter-context").enable()
     end
   },
-  }
+}
 
-
-return { M }
