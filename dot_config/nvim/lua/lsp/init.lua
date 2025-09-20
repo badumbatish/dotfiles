@@ -4,7 +4,8 @@ local language_servers = {
   "clangd", "tblgen_lsp_server", "mlir_lsp_server",
   "cir_lsp_server",
   "fortls",
-  "gleam"
+  "gleam",
+  "esbonio"
 }
 vim.lsp.set_log_level(4)
 

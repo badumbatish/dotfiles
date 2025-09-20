@@ -1,7 +1,6 @@
-Potentially modified by Jasmine Tang (badumbatish) for learning purposes
-==============================
 LLVM Language Reference Manual
 ==============================
+Potentially modified by Jasmine Tang (badumbatish) for learning purposes
 
 .. contents::
    :local:
@@ -10923,7 +10922,7 @@ Syntax:
 
 Overview:
 """""""""
-
+(keywordprg extractelement)
 The '``extractelement``' instruction extracts a single scalar element
 from a vector at a specified index.
 
@@ -10967,7 +10966,7 @@ Syntax:
 
 Overview:
 """""""""
-
+(keywordprg insertelement)
 The '``insertelement``' instruction inserts a scalar element into a
 vector at a specified index.
 
@@ -11013,7 +11012,7 @@ Syntax:
 
 Overview:
 """""""""
-
+(keywordprg shufflevector)
 The '``shufflevector``' instruction constructs a permutation of elements
 from two input vectors, returning a vector with the same element type as
 the input and length that is the same as the shuffle mask.
@@ -31403,3 +31402,4 @@ Semantics:
 
 The '``llvm.preserve.struct.access.index``' intrinsic produces the same result
 as a getelementptr with base ``base`` and access operands ``{0, gep_index}``.
+==============================
