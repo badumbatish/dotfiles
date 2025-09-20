@@ -1,4 +1,4 @@
-local langref = vim.fn.stdpath("config") .. "/docs/llvm-langref.rst"
+local langref = vim.fn.stdpath("config") .. "/docs/llvm-langref.rst.txt"
 
 if vim.fn.filereadable(langref) == 1 then
   -- Define a buffer-local command that looks up a keyword
@@ -9,20 +9,15 @@ if vim.fn.filereadable(langref) == 1 then
 
     print("escaped word: " .. word)
     local pattern = ".*" .. word .. ".*' Instruction"
-    vim.cmd("let @/ = ''")
-    pcall(function()
-      vim.fn.search(pattern)
-    end)
-
-      -- If search register is still empty => not found
-    if vim.fn.getreg("/") == "" then
-      -- Fallback to keywordprg
-      pcall(function()
-        vim.fn.search("keywordprg" .. word)
-      end)
+    local x = vim.fn.search(pattern)
+    if x ~= 0 then
+      return
     end
 
-    if vim.fn.getreg("/") == "" then
+    if x == 0 then
+      x = vim.fn.search("keywordprg" .. word)
+    end
+    if x == 0 then
       print("Cannot find: " .. word)
     end
   end, { nargs = "?" })
