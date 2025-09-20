@@ -72,8 +72,49 @@ M.yank_for_conditional_break = function()
     vim.fn.setreg('+', result)
     print(M.yank_msg .. result)
 end
+M.jump_to_file = function()
+  local fname = vim.fn.expand("<cfile>")  -- respects ./, ../, foo/bar, etc.
+  if fname == "" then
+    print("No filename under cursor")
+    return
+  end
 
-M.llvm_bin = "/Users/jjasmine/Developer/igalia/LLVM-20.1.7-macOS-ARM64/bin/"
+  -- Resolve relative paths
+  fname = vim.fn.fnamemodify(fname, ":p")
+
+  -- Find buffer number if it exists
+  local bufnr = vim.fn.bufnr(fname)
+  if bufnr == -1 then
+    -- File not open, open in new tab
+    vim.cmd("tabnew " .. vim.fn.fnameescape(fname))
+    return
+  end
+
+  -- File is open, search current tab first
+  -- local curtab = vim.fn.tabpagenr()
+  for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+    if vim.api.nvim_win_get_buf(win) == bufnr then
+      vim.api.nvim_set_current_win(win)
+      return
+    end
+  end
+
+  -- Search other tabs
+  local tabcount = vim.fn.tabpagenr("$")
+  for t = 1, tabcount do
+    for _, win in ipairs(vim.api.nvim_tabpage_list_wins(vim.api.nvim_list_tabpages()[t])) do
+      if vim.api.nvim_win_get_buf(win) == bufnr then
+        vim.cmd(t .. "tabnext")
+        vim.api.nvim_set_current_win(win)
+        return
+      end
+    end
+  end
+
+  -- If somehow not visible, just open in new tab
+  vim.cmd("tabnew " .. vim.fn.fnameescape(fname))
+end
+M.llvm_bin = "/Users/jjasmine/Developer/igalia/llvm-project/build/bin/"
 M.clangir_repo = "/Users/jjasmine/Developer/igalia/clangir/"
 
 return M

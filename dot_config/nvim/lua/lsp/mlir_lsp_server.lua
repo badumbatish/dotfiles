@@ -10,6 +10,6 @@ local utils = require 'utils'
 ---@type vim.lsp.Config
 return {
   cmd = { utils.llvm_bin .. '/mlir-lsp-server' },
-  -- filetypes = { 'mlir', 'cir' },
+  filetypes = { 'mlir' },
   root_markers = { '.git' },
 }
