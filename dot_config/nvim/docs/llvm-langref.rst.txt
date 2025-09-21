@@ -230,11 +230,11 @@ linkage:
     private to be renamed as necessary to avoid collisions. Because the
     symbol is private to the module, all references can be updated. This
     doesn't show up in any symbol table in the object file.
-``internal``
+``keywordprg internal``
     Similar to private, but the value shows as a local symbol
     (``STB_LOCAL`` in the case of ELF) in the object file. This
     corresponds to the notion of the '``static``' keyword in C.
-``available_externally``
+``keywordprg available_externally``
     Globals with "``available_externally``" linkage are never emitted into
     the object file corresponding to the LLVM module. From the linker's
     perspective, an ``available_externally`` global is equivalent to
@@ -244,7 +244,7 @@ linkage:
     with ``available_externally`` linkage are allowed to be discarded at
     will, and allow inlining and other optimizations. This linkage type is
     only allowed on definitions, not declarations.
-``linkonce``
+``keywordprg linkonce``
     Globals with "``linkonce``" linkage are merged with other globals of
     the same name when linkage occurs. This can be used to implement
     some forms of inline functions, templates, or other code which must
@@ -257,12 +257,12 @@ linkage:
     within the program or whether it will be overridden by a stronger
     definition. To enable inlining and other optimizations, use
     "``linkonce_odr``" linkage.
-``weak``
+``keywordprg weak``
     "``weak``" linkage has the same merging semantics as ``linkonce``
     linkage, except that unreferenced globals with ``weak`` linkage may
     not be discarded. This is used for globals that are declared "weak"
     in C source code.
-``common``
+``keywordprg common``
     "``common``" linkage is most similar to "``weak``" linkage, but they
     are used for tentative definitions in C, such as "``int X;``" at
     global scope. Symbols with "``common``" linkage are merged in the
@@ -275,7 +275,7 @@ linkage:
 .. _linkage_appending:
 
 ``appending``
-    "``appending``" linkage may only be applied to global variables of
+    "``keywordprg appending``" linkage may only be applied to global variables of
     pointer to array type. When two global variables with appending
     linkage are linked together, the two global arrays are appended
     together. This is the LLVM, typesafe, equivalent of having the
@@ -286,11 +286,11 @@ linkage:
     can only be used for variables like ``llvm.global_ctors`` which llvm
     interprets specially.
 
-``extern_weak``
+``keywordprg extern_weak``
     The semantics of this linkage follow the ELF object file model: the
     symbol is weak until linked, if not linked, the symbol becomes null
     instead of being an undefined reference.
-``linkonce_odr``, ``weak_odr``
+``keywordprg linkonce_odr``, ``keywordprg weak_odr``
     The ``odr`` suffix indicates that all globals defined with the given name
     are equivalent, along the lines of the C++ "one definition rule" ("ODR").
     Informally, this means we can inline functions and fold loads of constants.
@@ -302,7 +302,7 @@ linkage:
     aliases and ifuncs, apply the rule for the underlying function or variable.
 
     These linkage types are otherwise the same as their non-``odr`` versions.
-``external``
+``keywordprg external``
     If none of the above identifiers are used, the global is externally
     visible, meaning that it participates in linkage and can be used to
     resolve external symbol references.
@@ -322,13 +322,13 @@ caller/callee must match, or the behavior of the program is undefined.
 The following calling conventions are supported by LLVM, and more may be
 added in the future:
 
-"``ccc``" - The C calling convention
+"``keywordprg ccc``" - The C calling convention
     This calling convention (the default if no other calling convention
     is specified) matches the target C calling conventions. This calling
     convention supports varargs function calls and tolerates some
     mismatch in the declared prototype and implemented declaration of
     the function (as does normal C).
-"``fastcc``" - The fast calling convention
+"``keywordprg fastcc``" - The fast calling convention
     This calling convention attempts to make calls as fast as possible
     (e.g. by passing things in registers). This calling convention
     allows the target to use whatever tricks it wants to produce fast
@@ -338,7 +338,7 @@ added in the future:
     used. <CodeGenerator.html#tail-call-optimization>`_ This calling
     convention does not support varargs and requires the prototype of all
     callees to exactly match the prototype of the function definition.
-"``coldcc``" - The cold calling convention
+"``keywordprg coldcc``" - The cold calling convention
     This calling convention attempts to make code in the caller as
     efficient as possible under the assumption that the call is not
     commonly executed. As such, these calls often preserve all registers
@@ -347,7 +347,7 @@ added in the future:
     prototype of all callees to exactly match the prototype of the
     function definition. Furthermore the inliner doesn't consider such function
     calls for inlining.
-"``ghccc``" - GHC convention
+"``keywordprg ghccc``" - GHC convention
     This calling convention has been implemented specifically for use by
     the `Glasgow Haskell Compiler (GHC) <http://www.haskell.org/ghc>`_.
     It passes everything in registers, going to extremes to achieve this
@@ -372,7 +372,7 @@ added in the future:
     This calling convention supports `tail call
     optimization <CodeGenerator.html#tail-call-optimization>`_ but requires
     both the caller and callee to use it.
-"``cc 11``" - The HiPE calling convention
+"``keywordprg cc 11``" - The HiPE calling convention
     This calling convention has been implemented specifically for use by
     the `High-Performance Erlang
     (HiPE) <http://www.it.uu.se/research/group/hipe/>`_ compiler, *the*
@@ -387,14 +387,14 @@ added in the future:
     accessed runtime components pinned to specific hardware registers.
     At the moment only X86 supports this convention (both 32 and 64
     bit).
-"``anyregcc``" - Dynamic calling convention for code patching
+"``keywordprg anyregcc``" - Dynamic calling convention for code patching
     This is a special convention that supports patching an arbitrary code
     sequence in place of a call site. This convention forces the call
     arguments into registers but allows them to be dynamically
     allocated. This can currently only be used with calls to
     ``llvm.experimental.patchpoint`` because only this intrinsic records
     the location of its arguments in a side table. See :doc:`StackMaps`.
-"``preserve_mostcc``" - The `PreserveMost` calling convention
+"``keywordprg preserve_mostcc``" - The `PreserveMost` calling convention
     This calling convention attempts to make the code in the caller as
     unintrusive as possible. This convention behaves identically to the `C`
     calling convention on how arguments and return values are passed, but it
@@ -436,7 +436,7 @@ added in the future:
     by other runtimes in the future too. The current implementation only
     supports X86-64, but the intention is to support more architectures in the
     future.
-"``preserve_allcc``" - The `PreserveAll` calling convention
+"``keywordprg preserve_allcc``" - The `PreserveAll` calling convention
     This calling convention attempts to make the code in the caller even less
     intrusive than the `PreserveMost` calling convention. This calling
     convention also behaves identical to the `C` calling convention on how
@@ -461,14 +461,14 @@ added in the future:
     This calling convention, like the `PreserveMost` calling convention, will be
     used by a future version of the Objective-C runtime and should be considered
     experimental at this time.
-"``preserve_nonecc``" - The `PreserveNone` calling convention
+"``keywordprg preserve_nonecc``" - The `PreserveNone` calling convention
     This calling convention doesn't preserve any general registers. So all
     general registers are caller saved registers. It also uses all general
     registers to pass arguments. This attribute doesn't impact non-general
     purpose registers (e.g. floating point registers, on X86 XMMs/YMMs).
     Non-general purpose registers still follow the standard C calling
     convention. Currently it is for x86_64 and AArch64 only.
-"``cxx_fast_tlscc``" - The `CXX_FAST_TLS` calling convention for access functions
+"``keywordprg cxx_fast_tlscc``" - The `CXX_FAST_TLS` calling convention for access functions
     Clang generates an access function to access C++-style Thread Local Storage
     (TLS). The access function generally has an entry block, an exit block and an
     initialization block that is run at the first time. The entry and exit blocks
@@ -488,7 +488,7 @@ added in the future:
 
     - On X86-64 the callee preserves all general purpose registers, except for
       RDI and RAX.
-"``tailcc``" - Tail callable calling convention
+"``keywordprg tailcc``" - Tail callable calling convention
     This calling convention ensures that calls in tail position will always be
     tail call optimized. This calling convention is equivalent to fastcc,
     except for an additional guarantee that tail calls will be produced
@@ -496,15 +496,15 @@ added in the future:
     the GHC or the HiPE convention is used. <CodeGenerator.html#tail-call-optimization>`_
     This calling convention does not support varargs and requires the prototype of
     all callees to exactly match the prototype of the function definition.
-"``swiftcc``" - This calling convention is used for Swift language.
+"``keywordprg swiftcc``" - This calling convention is used for Swift language.
     - On X86-64 RCX and R8 are available for additional integer returns, and
       XMM2 and XMM3 are available for additional FP/vector returns.
     - On iOS platforms, we use AAPCS-VFP calling convention.
-"``swifttailcc``"
+"``keywordprg swifttailcc``"
     This calling convention is like ``swiftcc`` in most respects, but also the
     callee pops the argument area of the stack so that mandatory tail calls are
     possible as in ``tailcc``.
-"``cfguard_checkcc``" - Windows Control Flow Guard (Check mechanism)
+"``keywordprg cfguard_checkcc``" - Windows Control Flow Guard (Check mechanism)
     This calling convention is used for the Control Flow Guard check function,
     calls to which can be inserted before indirect calls to check that the call
     target is a valid function address. The check function has no return value,
@@ -532,7 +532,7 @@ Visibility Styles
 All Global Variables and Functions have one of the following visibility
 styles:
 
-"``default``" - Default style
+"``keywordprg default``" - Default style
     On targets that use the ELF object file format, default visibility
     means that the declaration is visible to other modules and, in
     shared libraries, means that the declared entity may be overridden.
@@ -542,13 +542,13 @@ styles:
     (i.e "exported") to other modules depends primarily on export lists
     provided to the linker. Default visibility corresponds to "external
     linkage" in the language.
-"``hidden``" - Hidden style
+"``keywordprg hidden``" - Hidden style
     Two declarations of an object with hidden visibility refer to the
     same object if they are in the same shared object. Usually, hidden
     visibility indicates that the symbol will not be placed into the
     dynamic symbol table, so no other module (executable or shared
     library) can reference it directly.
-"``protected``" - Protected style
+"``keywordprg protected``" - Protected style
     On ELF, protected visibility indicates that the symbol will be
     placed in the dynamic symbol table, but that references within the
     defining module will bind to the local symbol. That is, the symbol
@@ -565,12 +565,12 @@ DLL Storage Classes
 All Global Variables, Functions and Aliases can have one of the following
 DLL storage classes:
 
-``dllimport``
+``keywordprg dllimport``
     "``dllimport``" causes the compiler to reference a function or variable via
     a global pointer to a pointer that is set up by the DLL exporting the
     symbol. On Microsoft Windows targets, the pointer name is formed by
     combining ``__imp_`` and the function or variable name.
-``dllexport``
+``keywordprg dllexport``
     On Microsoft Windows targets, "``dllexport``" causes the compiler to provide
     a global pointer to a pointer in a DLL, so that it can be referenced with the
     ``dllimport`` attribute. The pointer name is formed by combining ``__imp_``
@@ -594,11 +594,11 @@ not be shared by threads (each thread will have a separate copy of the
 variable). Not all targets support thread-local variables. Optionally, a
 TLS model may be specified:
 
-``localdynamic``
+``keywordprg localdynamic``
     For variables that are only used within the current shared library.
-``initialexec``
+``keywordprg initialexec``
     For variables in modules that will not be loaded dynamically.
-``localexec``
+``keywordprg localexec``
     For variables defined in the executable and only used within it.
 
 If no explicit model is given, the "general dynamic" model is used.
@@ -628,7 +628,7 @@ symbol is assumed to be ``dso_preemptable``.
     Indicates that the function or variable may be replaced by a symbol from
     outside the linkage unit at runtime.
 
-``dso_local``
+``keywordprg dso_local``
     The compiler may assume that a function or variable marked as ``dso_local``
     will resolve to a symbol within the same linkage unit. Direct access will
     be generated even if the definition is not within this compilation unit.
@@ -867,7 +867,7 @@ The following example defines a thread-local global with the
 Functions
 ---------
 
-LLVM function definitions consist of the "``define``" keyword, an
+LLVM function definitions consist of the "``keywordprg define``" keyword, an
 optional :ref:`linkage type <linkage>`, an optional :ref:`runtime preemption
 specifier <runtime_preemption_model>`,  an optional :ref:`visibility
 style <visibility>`, an optional :ref:`DLL storage class <dllstorageclass>`,
@@ -901,7 +901,7 @@ Syntax::
 
    <type> [parameter Attrs] [name]
 
-LLVM function declarations consist of the "``declare``" keyword, an
+LLVM function declarations consist of the "``keywordprg declare``" keyword, an
 optional :ref:`linkage type <linkage>`, an optional :ref:`visibility style
 <visibility>`, an optional :ref:`DLL storage class <dllstorageclass>`, an
 optional :ref:`calling convention <callingconv>`, an optional ``unnamed_addr``
@@ -962,6 +962,8 @@ address space from the :ref:`datalayout string<langref_datalayout>`.
 Aliases
 -------
 
+keywordprg alias
+
 Aliases, unlike function or variables, don't create any new data. They
 are just a new symbol and metadata for an existing position.
 
@@ -973,7 +975,7 @@ Aliases may have an optional :ref:`linkage type <linkage>`, an optional
 :ref:`visibility style <visibility>`, an optional :ref:`DLL storage class
 <dllstorageclass>` and an optional :ref:`tls model <tls_model>`.
 
-Syntax::
+Syntax:
 
     @<Name> = [Linkage] [PreemptionSpecifier] [Visibility] [DLLStorageClass] [ThreadLocal] [(unnamed_addr|local_unnamed_addr)] alias <AliaseeTy>, <AliaseeTy>* @<Aliasee>
               [, partition "name"]
@@ -1014,6 +1016,7 @@ some can only be checked when producing an object file:
 
 IFuncs
 -------
+keywordprg ifunc
 
 IFuncs, like aliases, don't create any new data or func. They are just a new
 symbol that is resolved at runtime by calling a resolver function.
@@ -1036,7 +1039,7 @@ Syntax::
 
 Comdats
 -------
-
+keywordprg comdat
 Comdat IR provides access to object file COMDAT/section group functionality
 which represents interrelated sections.
 
@@ -1205,29 +1208,29 @@ correctness on the kind of extension to be explicitly specified.
 
 Currently, only the following parameter attributes are defined:
 
-``zeroext``
+``keywordprg zeroext``
     This indicates to the code generator that the parameter or return
     value should be zero-extended to the extent required by the target's
     ABI by the caller (for a parameter) or the callee (for a return value).
-``signext``
+``keywordprg signext``
     This indicates to the code generator that the parameter or return
     value should be sign-extended to the extent required by the target's
     ABI (which is usually 32-bits) by the caller (for a parameter) or
     the callee (for a return value).
-``noext``
+``keywordprg noext``
     This indicates to the code generator that the parameter or return
     value has the high bits undefined, as for a struct in a register, and
     therefore does not need to be sign or zero extended. This is the same
     as default behavior and is only actually used (by some targets) to
     validate that one of the attributes is always present.
-``inreg``
+``keywordprg inreg``
     This indicates that this parameter or return value should be treated
     in a special target-dependent fashion while emitting code for
     a function call or return (usually, by putting it in a register as
     opposed to memory, though some targets use it to distinguish between
     two different kinds of registers). Use of this attribute is
     target-specific.
-``byval(<ty>)``
+``keywordprg byval(<ty>)``
     This indicates that the pointer parameter should really be passed by
     value to the function. The attribute implies that a hidden copy of
     the pointee is made between the caller and the callee, so the callee
@@ -1249,7 +1252,7 @@ Currently, only the following parameter attributes are defined:
 
 .. _attr_byref:
 
-``byref(<ty>)``
+``keywordprg byref(<ty>)``
 
     The ``byref`` argument attribute allows specifying the pointee
     memory type of an argument. This is similar to ``byval``, but does
@@ -1273,7 +1276,7 @@ Currently, only the following parameter attributes are defined:
 
 .. _attr_preallocated:
 
-``preallocated(<ty>)``
+``keywordprg preallocated(<ty>)``
     This indicates that the pointer parameter should really be passed by
     value to the function, and that the pointer parameter's pointee has
     already been initialized before the call instruction. This attribute
@@ -1297,7 +1300,7 @@ Currently, only the following parameter attributes are defined:
 
 .. _attr_inalloca:
 
-``inalloca(<ty>)``
+``keywordprg inalloca(<ty>)``
 
     The ``inalloca`` argument attribute allows the caller to take the
     address of outgoing stack arguments. An ``inalloca`` argument must
@@ -1326,7 +1329,7 @@ Currently, only the following parameter attributes are defined:
     See :doc:`InAlloca` for more information on how to use this
     attribute.
 
-``sret(<ty>)``
+``keywordprg sret(<ty>)``
     This indicates that the pointer parameter specifies the address of a
     structure that is the return value of the function in the source
     program. This pointer must be guaranteed by the caller to be valid:
@@ -1340,7 +1343,7 @@ Currently, only the following parameter attributes are defined:
 
 .. _attr_elementtype:
 
-``elementtype(<ty>)``
+``keywordprg elementtype(<ty>)``
 
     The ``elementtype`` argument attribute can be used to specify a pointer
     element type in a way that is compatible with `opaque pointers
@@ -1373,7 +1376,7 @@ Currently, only the following parameter attributes are defined:
 
 .. _noalias:
 
-``noalias``
+``keywordprg noalias``
     This indicates that memory locations accessed via pointer values
     :ref:`based <pointeraliasing>` on the argument or return value are not also
     accessed, during the execution of the function, via pointer values not
@@ -1439,12 +1442,12 @@ Currently, only the following parameter attributes are defined:
 
 .. _nest:
 
-``nest``
+``keywordprg nest``
     This indicates that the pointer parameter can be excised using the
     :ref:`trampoline intrinsics <int_trampoline>`. This is not a valid
     attribute for return values and can only be applied to one parameter.
 
-``returned``
+``keywordprg returned``
     This indicates that the function always returns the argument as its return
     value. This is a hint to the optimizer and code generator used when
     generating the caller, allowing value propagation, tail call optimization,
@@ -1454,7 +1457,7 @@ Currently, only the following parameter attributes are defined:
     :ref:`bitcast instruction <i_bitcast>`. This is not a valid attribute for
     return values and can only be applied to one parameter.
 
-``nonnull``
+``keywordprg nonnull``
     This indicates that the parameter or return pointer is not null. This
     attribute may only be applied to pointer typed parameters. This is not
     checked or enforced by LLVM; if the parameter or return pointer is null,
@@ -1525,14 +1528,14 @@ Currently, only the following parameter attributes are defined:
     does not alias any other memory visible within a function and that a
     ``swifterror`` alloca passed as an argument does not escape.
 
-``immarg``
+``keywordprg immarg``
     This indicates the parameter is required to be an immediate
     value. This must be a trivial immediate integer or floating-point
     constant. Undef or constant expressions are not valid. This is
     only valid on intrinsic declarations and cannot be applied to a
     call site or arbitrary function.
 
-``noundef``
+``keywordprg noundef``
     This attribute applies to parameters and return values. If the value
     representation contains any undefined or poison bits, the behavior is
     undefined. Note that this does not refer to padding introduced by the
@@ -1985,11 +1988,11 @@ For example:
     ``CallSite.Args[EltSizeParam] * CallSite.Args[NumEltsParam]`` bytes are
     available. The referenced parameters must be integer types. No assumptions
     are made about the contents of the returned block of memory.
-``alwaysinline``
+``keywordprg alwaysinline``
     This attribute indicates that the inliner should attempt to inline
     this function into callers whenever possible, ignoring any active
     inlining size threshold for this caller.
-``builtin``
+``keywordprg builtin``
     This indicates that the callee function at a call site should be
     recognized as a built-in function, even though the function's declaration
     uses the ``nobuiltin`` attribute. This is only valid at call sites for
@@ -2058,7 +2061,7 @@ For example:
      * ``"non-leaf"`` - the frame pointer should be kept if the function calls
        other functions.
      * ``"all"`` - the frame pointer should be kept.
-``hot``
+``keywordprg hot``
     This attribute indicates that this function is a hot spot of the program
     execution. The function will be optimized more aggressively and will be
     placed into a special subsection of the text section to improve locality.
@@ -2207,7 +2210,7 @@ For example:
     memory on its behalf.  As a result, perhaps surprisingly, a ``nofree``
     function can return a pointer to a previously deallocated
     :ref:`allocated object<allocatedobjects>`.
-``noimplicitfloat``
+``keywordprg noimplicitfloat``
     Disallows implicit floating-point code. This inhibits optimizations that
     use floating-point code and floating-point registers for operations that are
     not nominally floating-point. LLVM instructions that perform floating-point
@@ -2312,16 +2315,16 @@ For example:
    Note: Comparing the address of a global variable to ``null`` may still
    evaluate to false because of a limitation in querying this attribute inside
    constant expressions.
-``optdebug``
+``keywordprg optdebug``
     This attribute suggests that optimization passes and code generator passes
     should make choices that try to preserve debug info without significantly
     degrading runtime performance.
     This attribute is incompatible with the ``minsize``, ``optsize``, and
     ``optnone`` attributes.
-``optforfuzzing``
+``keywordprg optforfuzzing``
     This attribute indicates that this function should be optimized
     for maximum fuzzing signal.
-``optnone``
+``keywordprg optnone``
     This function attribute indicates that most optimization passes will skip
     this function, with the exception of interprocedural optimization passes.
     Code generation defaults to the "fast" instruction selector.
@@ -2333,7 +2336,7 @@ For example:
     the function as well, so the function is never inlined into any caller.
     Only functions with the ``alwaysinline`` attribute are valid
     candidates for inlining into the body of this function.
-``optsize``
+``keywordprg optsize``
     This attribute suggests that optimization passes and code generator
     passes make choices that keep the code size of this function low,
     and otherwise do optimizations specifically to reduce code size as
@@ -2393,14 +2396,14 @@ For example:
     inlined into a function that has no ``"stack-probe-size"`` attribute
     at all, the resulting function has the ``"stack-probe-size"`` attribute
     of the callee.
-``"no-stack-arg-probe"``
+``"keywordprg no-stack-arg-probe"``
     This attribute disables ABI-required stack probes, if any.
-``returns_twice``
+``keywordprg returns_twice``
     This attribute indicates that this function can return twice. The C
     ``setjmp`` is an example of such a function. The compiler disables
     some optimizations (like tail calls) in the caller of these
     functions.
-``safestack``
+``keywordprg safestack``
     This attribute indicates that
     `SafeStack <https://clang.llvm.org/docs/SafeStack.html>`_
     protection is enabled for this function.
@@ -2409,33 +2412,33 @@ For example:
     function that doesn't have a ``safestack`` attribute or which has an
     ``ssp``, ``sspstrong`` or ``sspreq`` attribute, then the resulting
     function will have a ``safestack`` attribute.
-``sanitize_address``
+``keywordprg sanitize_address``
     This attribute indicates that AddressSanitizer checks
     (dynamic address safety analysis) are enabled for this function.
-``sanitize_memory``
+``keywordprg sanitize_memory``
     This attribute indicates that MemorySanitizer checks (dynamic detection
     of accesses to uninitialized memory) are enabled for this function.
-``sanitize_thread``
+``keywordprg sanitize_thread``
     This attribute indicates that ThreadSanitizer checks
     (dynamic thread safety analysis) are enabled for this function.
-``sanitize_hwaddress``
+``keywordprg sanitize_hwaddress``
     This attribute indicates that HWAddressSanitizer checks
     (dynamic address safety analysis based on tagged pointers) are enabled for
     this function.
-``sanitize_memtag``
+``keywordprg sanitize_memtag``
     This attribute indicates that MemTagSanitizer checks
     (dynamic address safety analysis based on Armv8 MTE) are enabled for
     this function.
-``sanitize_realtime``
+``keywordprg sanitize_realtime``
     This attribute indicates that RealtimeSanitizer checks
     (realtime safety analysis - no allocations, syscalls or exceptions) are enabled
     for this function.
-``sanitize_realtime_blocking``
+``keywordprg sanitize_realtime_blocking``
     This attribute indicates that RealtimeSanitizer should error immediately
     if the attributed function is called during invocation of a function
     attributed with ``sanitize_realtime``.
     This attribute is incompatible with the ``sanitize_realtime`` attribute.
-``speculative_load_hardening``
+``keywordprg speculative_load_hardening``
     This attribute indicates that
     `Speculative Load Hardening <https://llvm.org/docs/SpeculativeLoadHardening.html>`_
     should be enabled for the function body.
@@ -2453,7 +2456,7 @@ For example:
     to provide a maximally conservative model where the code in a function
     annotated with this attribute will always (even after inlining) end up
     hardened.
-``speculatable``
+``keywordprg speculatable``
     This function attribute indicates that the function does not have any
     effects besides calculating its result and does not have undefined behavior.
     Note that ``speculatable`` is not enough to conclude that along any
@@ -2464,7 +2467,7 @@ For example:
     undefined behavior, the undefined behavior may be observed even
     if the call site is dead code.
 
-``ssp``
+``keywordprg ssp``
     This attribute indicates that the function should emit a stack
     smashing protector. It is in the form of a "canary" --- a random value
     placed on the stack before the local variables that's checked upon
@@ -2483,7 +2486,7 @@ For example:
     If a function with an ``ssp`` attribute is inlined into a calling function,
     the attribute is not carried over to the calling function.
 
-``sspstrong``
+``keywordprg sspstrong``
     This attribute indicates that the function should emit a stack smashing
     protector. This attribute causes a strong heuristic to be used when
     determining if a function needs stack protectors. The strong heuristic
@@ -2511,7 +2514,7 @@ For example:
     function which has an ``ssp`` attribute, the calling function's attribute
     will be upgraded to ``sspstrong``.
 
-``sspreq``
+``keywordprg sspreq``
     This attribute indicates that the function should *always* emit a stack
     smashing protector. This overrides the ``ssp`` and ``sspstrong`` function
     attributes.
@@ -2543,7 +2546,7 @@ For example:
 
 .. _denormal_fp_math:
 
-``"denormal-fp-math"``
+``"keywordprg denormal-fp-math"``
     This indicates the denormal (subnormal) handling that may be
     assumed for the default floating-point environment. This is a
     comma separated pair. The elements may be one of ``"ieee"``,
@@ -2578,7 +2581,7 @@ For example:
     mode, the input may need to be converted to 0 as if by
     ``@llvm.canonicalize`` during lowering for correctness.
 
-``"denormal-fp-math-f32"``
+``"keywordprg denormal-fp-math-f32"``
     Same as ``"denormal-fp-math"``, but only controls the behavior of
     the 32-bit float type (or vectors of 32-bit floats). If both are
     are present, this overrides ``"denormal-fp-math"``. Not all targets
@@ -2586,12 +2589,12 @@ For example:
     attempt is made to diagnose unsupported uses. Currently this
     attribute is respected by the AMDGPU and NVPTX backends.
 
-``"thunk"``
+``"keywordprg thunk"``
     This attribute indicates that the function will delegate to some other
     function with a tail call. The prototype of a thunk should not be used for
     optimization purposes. The caller is expected to cast the thunk prototype to
     match the thunk target prototype.
-``uwtable[(sync|async)]``
+``keywordprg uwtable[(sync|async)]``
     This attribute indicates that the ABI being targeted requires that
     an unwind table entry be produced for this function even if we can
     show that no exceptions pass by it. This is normally the case for
@@ -2600,13 +2603,13 @@ For example:
     to generate: ``sync`` for normal unwind tables, ``async`` for asynchronous
     (instruction precise) unwind tables. Without the parameter, the attribute
     ``uwtable`` is equivalent to ``uwtable(async)``.
-``nocf_check``
+``keywordprg nocf_check``
     This attribute indicates that no control-flow check will be performed on
     the attributed entity. It disables -fcf-protection=<> for a specific
     entity to fine grain the HW control flow protection mechanism. The flag
     is target independent and currently appertains to a function or function
     pointer.
-``shadowcallstack``
+``keywordprg shadowcallstack``
     This attribute indicates that the ShadowCallStack checks are enabled for
     the function. The instrumentation checks that the return address for the
     function has not changed between the function prologue and epilogue. It is
@@ -3964,21 +3967,21 @@ LLVM IR floating-point operations (:ref:`fneg <i_fneg>`, :ref:`fadd <i_fadd>`,
 :ref:`call <i_call>` instructions that return floating-point types may use the
 following flags to enable otherwise unsafe floating-point transformations.
 
-``fast``
+``keywordprg fast``
    This flag is a shorthand for specifying all fast-math flags at once, and
    imparts no additional semantics from using all of them.
 
-``nnan``
+``keywordprg nnan``
    No NaNs - Allow optimizations to assume the arguments and result are not
    NaN. If an argument is a nan, or the result would be a nan, it produces
    a :ref:`poison value <poisonvalues>` instead.
 
-``ninf``
+``keywordprg ninf``
    No Infs - Allow optimizations to assume the arguments and result are not
    +/-Inf. If an argument is +/-Inf, or the result would be +/-Inf, it
    produces a :ref:`poison value <poisonvalues>` instead.
 
-``nsz``
+``keywordprg nsz``
    No Signed Zeros - Allow optimizations to treat the sign of a zero
    argument or zero result as insignificant. This does not imply that -0.0
    is poison and/or guaranteed to not exist in the operation.
@@ -4031,7 +4034,7 @@ like ``nnan`` is present on any or all of the rewritten instructions is based
 on whether or not it is possible for said instruction to have a NaN input or
 output, given the original flags.
 
-``arcp``
+``keywordprg arcp``
    Allows division to be treated as a multiplication by a reciprocal.
    Specifically, this permits ``a / b`` to be considered equivalent to
    ``a * (1.0 / b)`` (which may subsequently be susceptible to code motion),
@@ -4039,7 +4042,7 @@ output, given the original flags.
    ``a * (c / b)``. Both of these rewrites can be applied in either direction:
    ``a * (c / b)`` can be rewritten into ``a / (b / c)``.
 
-``contract``
+``keywordprg contract``
    Allow floating-point contraction (e.g. fusing a multiply followed by an
    addition into a fused multiply-and-add). This does not enable reassociation
    to form arbitrary contractions. For example, ``(a*b) + (c*d) + e`` can not
@@ -4047,12 +4050,12 @@ output, given the original flags.
 
 .. _fastmath_afn:
 
-``afn``
+``keywordprg afn``
    Approximate functions - Allow substitution of approximate calculations for
    functions (sin, log, sqrt, etc). See floating-point intrinsic definitions
    for places where this can apply to LLVM's intrinsic math functions.
 
-``reassoc``
+``keywordprg reassoc``
    Allow algebraically equivalent transformations for floating-point
    instructions such as reassociation transformations. This may dramatically
    change results in floating-point.
@@ -4143,7 +4146,7 @@ Void Type
 
 :Overview:
 
-
+keywordprg void
 The void type does not represent any value and has no size.
 
 :Syntax:
@@ -4196,7 +4199,7 @@ Opaque Structure Types
 ----------------------
 
 :Overview:
-
+keywordprg opaque
 Opaque structure types are used to represent structure types that
 do not have a body specified. This corresponds (for example) to the C
 notion of a forward declared structure. They can be named (``%X``) or
@@ -4254,11 +4257,11 @@ Examples:
 *********
 
 +----------------+------------------------------------------------+
-| ``i1``         | a single-bit integer.                          |
+| ``keywordprg i1``         | a single-bit integer.                          |
 +----------------+------------------------------------------------+
-| ``i32``        | a 32-bit integer.                              |
+| ``keywordprg i32``        | a 32-bit integer.                              |
 +----------------+------------------------------------------------+
-| ``i1942652``   | a really big integer of over 1 million bits.   |
+| ``keywordprg i1942652``   | a really big integer of over 1 million bits.   |
 +----------------+------------------------------------------------+
 
 .. _t_floating:
@@ -4272,28 +4275,28 @@ Floating-Point Types
    * - Type
      - Description
 
-   * - ``half``
+   * - ``keywordprg half``
      - 16-bit floating-point value (IEEE-754 binary16)
 
-   * - ``bfloat``
+   * - ``keywordprg bfloat``
      - 16-bit "brain" floating-point value (7-bit significand).  Provides the
        same number of exponent bits as ``float``, so that it matches its dynamic
        range, but with greatly reduced precision.  Used in Intel's AVX-512 BF16
        extensions and Arm's ARMv8.6-A extensions, among others.
 
-   * - ``float``
+   * - ``keywordprg float``
      - 32-bit floating-point value (IEEE-754 binary32)
 
-   * - ``double``
+   * - ``keywordprg double``
      - 64-bit floating-point value (IEEE-754 binary64)
 
-   * - ``fp128``
+   * - ``keywordprg fp128``
      - 128-bit floating-point value (IEEE-754 binary128)
 
-   * - ``x86_fp80``
+   * - ``keywordprg x86_fp80``
      -  80-bit floating-point value (X87)
 
-   * - ``ppc_fp128``
+   * - ``keywordprg ppc_fp128``
      - 128-bit floating-point value (two 64-bits)
 
 X86_amx Type
@@ -4987,7 +4990,7 @@ it is undefined behavior.
 
 Poison Values
 -------------
-
+keywordprg poison
 A poison value is a result of an erroneous operation.
 In order to facilitate speculative execution, many instructions do not
 invoke immediate undefined behavior when provided with illegal operands,
@@ -7280,7 +7283,7 @@ Examples:
 
 '``absolute_symbol``' Metadata
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
+keywordprg absolute_symbol
 ``absolute_symbol`` metadata may be attached to a global variable
 declaration. It marks the declaration as a reference to an absolute symbol,
 which causes the backend to use absolute relocations for the symbol even
@@ -7392,7 +7395,7 @@ final ``i1 true``).
 
 '``exclude``' Metadata
 ^^^^^^^^^^^^^^^^^^^^^^
-
+keywordprg !exclude
 ``exclude`` metadata may be attached to a global variable to signify that its
 section should not be included in the final executable or shared library. This
 option is only valid for global variables with an explicit section targeting ELF
@@ -7411,7 +7414,7 @@ sections that the user does not want removed after linking.
 
 '``unpredictable``' Metadata
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
+keywordprg !unpredictable
 ``unpredictable`` metadata may be attached to any branch or switch
 instruction. It can be used to express the unpredictability of control
 flow. Similar to the ``llvm.expect`` intrinsic, it may be used to alter
@@ -7423,7 +7426,7 @@ or switch that it is attached to is completely unpredictable.
 
 '``dereferenceable``' Metadata
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
+keywordprg !derefenceable
 The existence of the ``!dereferenceable`` metadata on the instruction
 tells the optimizer that the value loaded is known to be dereferenceable,
 otherwise the behavior is undefined.
@@ -7435,7 +7438,7 @@ attribute on parameters and return values.
 
 '``dereferenceable_or_null``' Metadata
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
+keywordprg dereferenceable_or_null
 The existence of the ``!dereferenceable_or_null`` metadata on the
 instruction tells the optimizer that the value loaded is known to be either
 dereferenceable or null, otherwise the behavior is undefined.
@@ -7447,7 +7450,7 @@ attribute on parameters and return values.
 
 '``llvm.loop``'
 ^^^^^^^^^^^^^^^
-
+keywordprg !llvm.loop
 It is sometimes useful to attach information to loop constructs. Currently,
 loop metadata is implemented as metadata attached to the branch instruction
 in the loop latch block. The loop metadata node is a list of

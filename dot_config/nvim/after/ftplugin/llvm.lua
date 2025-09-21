@@ -3,18 +3,17 @@ local langref = vim.fn.stdpath("config") .. "/docs/llvm-langref.rst.txt"
 if vim.fn.filereadable(langref) == 1 then
   -- Define a buffer-local command that looks up a keyword
   vim.api.nvim_buf_create_user_command(0, "LLVMDoc", function()
-    local word = vim.fn.expand("<cword>")
-    word = vim.fn.escape(word, "\\/.*$^~[]")
-    vim.cmd("edit " .. vim.fn.fnameescape(langref))
+    local word = vim.fn.expand("<cWORD>")
+    vim.cmd("tabnew " .. vim.fn.fnameescape(langref))
 
     print("escaped word: " .. word)
     local patterns = {
+      "keywordprg " .. word,
       ".*" .. word .. ".*' Instruction",
       ".*" .. word .. ".*' Intrinsic",
-      "keywordprg" .. word,
     }
 
-    for p in patterns do
+    for _,p in ipairs(patterns) do
       if (vim.fn.search(p) ~= 0) then
         return
       end
