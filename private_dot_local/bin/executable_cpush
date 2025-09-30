@@ -1,3 +1,4 @@
+#!/bin/bash
 # INFO: CPUSH STANDS FOR CHEZMOI CD, GIT PUSH, CD -
 
 pushd . > /dev/null
