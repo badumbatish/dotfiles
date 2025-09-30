@@ -1,7 +1,7 @@
 vim.opt.hlsearch = true
 vim.opt.mouse = "a"
 
-vim.opt.clipboard = "unnamedplus"
+vim.cmd("set clipboard+=unnamedplus")
 
 
 vim.opt.relativenumber = true

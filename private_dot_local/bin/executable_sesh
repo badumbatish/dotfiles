@@ -1,61 +1,73 @@
+#!/bin/bash
 
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
     selected=$(
         (
-            find ~/Developer/github ~/Developer/igalia ~/projects  -mindepth 1 -maxdepth 1 -type d
-            find ~/Developer/nvim_proj ~/projects -mindepth 1 -maxdepth 1 -type d
-            find ~/.config/nvim -maxdepth 0 -type d
-            echo ~/.local/share/chezmoi/
-            echo ~/.zshrc
-            echo ~/.ccache/ccache.conf
-            echo ~/.local/bin/cadd
-            echo ~/.local/bin/cinstall
-            echo ~/.local/bin/cap
-            echo ~/.local/bin/cpush
-            echo ~/.local/bin/sesh
-            echo ~/.local/bin/yabai_reload
-            echo ~/.local/bin/run_wasm_test_suite.py
-            echo ~/.config/kitty/kitty.conf
-            echo ~/.tmux.conf
-            echo ~/.lldbinit
-            echo ~/.gitconfig
-            echo ~/.gitconfig-work
-            echo ~/.config/skhd/skhdrc
-            echo ~/.config/yabai/yabairc
+            for dir in ~/Developer/github ~/Developer/igalia ~/projects ~/Developer/nvim_proj ; do
+                if test -d "$dir"; then
+                    # Only find directories, no recursion into subdirectories
+                    find "$dir" -maxdepth 1 -mindepth 1 -type d
+                fi
+            done
+
+            # Check individual files and directories exist before echoing
+            for path in \
+                ~/.config/nvim \
+                ~/.local/share/chezmoi/ \
+                ~/.zshrc \
+                ~/.ccache/ccache.conf \
+                ~/.local/bin/cadd \
+                ~/.local/bin/cinstall \
+                ~/.local/bin/cap \
+                ~/.local/bin/cpush \
+                ~/.local/bin/sesh \
+                ~/.local/bin/yabai_reload \
+                ~/.local/bin/run_wasm_test_suite.py \
+                ~/.config/kitty/kitty.conf \
+                ~/.tmux.conf \
+                ~/.lldbinit \
+                ~/.gitconfig \
+                ~/.gitconfig-work \
+                ~/.config/skhd/skhdrc \
+                ~/.config/yabai/yabairc; do
+                if test -e "$path"; then
+                    echo "$path"
+                fi
+            done
         ) | fzf
     )
 fi
 
-if [[ -z $selected ]]; then
+if test -z "$selected"; then
     exit 0
 fi
-
-
 
 selected_name=$(basename "$selected" | tr . _)
 tmux_running=$(pgrep tmux)
 
 # Start tmux if it is not running
-if [[ -z $tmux_running ]]; then
+if test -z "$tmux_running"; then
     tmux new-session -d
     tmux_running=$(pgrep tmux)
 fi
 
-if ! tmux has-session -t=$selected_name 2>/dev/null; then
-   tmux new-session -d -s $selected_name -c $selected
+if ! tmux has-session -t="$selected_name" 2>/dev/null; then
+    tmux new-session -d -s "$selected_name" -c "$selected"
 
-    if [[ -f $selected ]]; then
+    # If it's a file, open it in nvim
+    if test -f "$selected"; then
         tmux send-keys -t 0 "nvim \"$selected\"" C-j
     else
-        tmux new-window -c $selected -n "terminal_${selected_name}"
+        # Otherwise, it's a directory, so open a terminal window
+        tmux new-window -c "$selected" -n "terminal_${selected_name}"
 
         # Split the window vertically (main pane on left)
-        tmux split-window -h -c $selected -l 33%
+        tmux split-window -h -c "$selected" -l 33%
 
         # Split the right pane horizontally
-        tmux split-window -v -c $selected
+        tmux split-window -v -c "$selected"
         # Select the main (left) pane
         tmux select-pane -t 0
 
@@ -67,10 +79,9 @@ if ! tmux has-session -t=$selected_name 2>/dev/null; then
     fi
 fi
 
-
 # Check if we have active clients when inside tmux
-if [[ -z $TMUX ]] || [[ -z "$(tmux list-clients)" ]]; then
-    tmux attach-session -t $selected_name
+if test -z "$TMUX" || test -z "$(tmux list-clients)"; then
+    tmux attach-session -t "$selected_name"
 else
-    tmux switch-client -t $selected_name
+    tmux switch-client -t "$selected_name"
 fi

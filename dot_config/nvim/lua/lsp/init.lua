@@ -5,7 +5,8 @@ local language_servers = {
   "cir_lsp_server",
   "fortls",
   "gleam",
-  "esbonio"
+  "esbonio",
+  "cmake-language-server",
 }
 vim.lsp.set_log_level(4)
 

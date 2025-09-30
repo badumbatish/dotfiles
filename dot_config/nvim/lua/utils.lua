@@ -114,7 +114,5 @@ M.jump_to_file = function()
   -- If somehow not visible, just open in new tab
   vim.cmd("tabnew " .. vim.fn.fnameescape(fname))
 end
-M.llvm_bin = "/Users/jjasmine/Developer/igalia/llvm-project/build/bin/"
-M.clangir_repo = "/Users/jjasmine/Developer/igalia/clangir/"
 
 return M

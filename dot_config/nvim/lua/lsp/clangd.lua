@@ -1,3 +1,4 @@
+local configs = require 'configs'
 ---@brief
 ---
 --- https://clangd.llvm.org/installation.html
@@ -62,8 +63,8 @@ end
 
 return {
     cmd = {
-        '/Users/jjasmine/Developer/igalia/LLVM-20.1.7-macOS-ARM64/bin/clangd',
-        '--j=3', '--background-index', '--pch-storage=memory'},
+      configs.prebuilt_llvm_bin .. '/clangd',
+        '--j=6', '--clang-tidy', '--background-index', '--pch-storage=memory'},
     filetypes = { '.', 'c', 'cpp', 'objc', 'objcpp', 'cuda', 'proto' },
     root_markers = {
         '.clangd',

@@ -1,4 +1,4 @@
-local utils = require 'utils'
+local meta_configs = require 'meta_configs'
 ---@brief
 ---
 --- https://mlir.llvm.org/docs/Tools/MLIRLSP/#mlir-lsp-language-server--mlir-lsp-server=
@@ -9,7 +9,7 @@ local utils = require 'utils'
 
 ---@type vim.lsp.Config
 return {
-  cmd = { utils.llvm_bin .. '/mlir-lsp-server' },
+  cmd = { meta_configs.llvm_bin .. '/mlir-lsp-server' },
   filetypes = { 'mlir' },
   root_markers = { '.git' },
 }
