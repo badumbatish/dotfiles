@@ -1,4 +1,4 @@
-#
+#!/bin/bash
 pushd . > /dev/null
 cd ~/.local/share/chezmoi/
 git rm -rf dot_config/nvim
