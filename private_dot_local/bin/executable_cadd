@@ -34,8 +34,9 @@ chezmoi add ~/.ccache/ccache.conf ~/.lldbinit
 git add .
 
 # Find and remove all directories named 'scratch' precommitted
-if [ fd scratch >/dev/null ]; then
-  fd scratch --print0 | xargs -0 git rm -rf
+matches=$(fd scratch -0)    # collects null-separated results
+if [ -n "$matches" ]; then
+  printf '%s' "$matches" | xargs -0 git rm -rf
 fi
 
 
