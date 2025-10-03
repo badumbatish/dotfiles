@@ -1,13 +1,13 @@
 set +e
 # INFO: Install general packages
-brew install starship fzf curl nodejs npm python3 git kitty bat nvim tmux fastfetch fd ripgrep git-delta
+sudo pacman -S starship fzf curl nodejs npm python3 git kitty bat nvim tmux fastfetch fd ripgrep git-delta
 
 # INFO: C++ Dev
-brew install ccache cmake lld
+sudo pacman -S ccache cmake lld
 
 # INFO: Window manager:
-brew tap FelixKratz/formulae
-brew install borders yabai skhd
+# brew tap FelixKratz/formulae
+# brew install borders yabai skhd
 
 # INFO: Install omzsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
