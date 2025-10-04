@@ -25,6 +25,8 @@ chezmoi add ~/.local/bin/cadd ~/.local/bin/sesh  ~/.local/bin/cinstall ~/.local/
 chezmoi add ~/.local/bin/run_wasm_test_suite.py
 chezmoi add ~/.local/bin/gh_report
 
+
+chezmoi add ~/.config/hypr/hyprland.conf
 # INFO: ccache
 chezmoi add ~/.ccache/ccache.conf ~/.lldbinit
 

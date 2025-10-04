@@ -14,10 +14,6 @@ else
 
             # Check individual files and directories exist before echoing
             for path in \
-                ~/.config/nvim \
-                ~/.local/share/chezmoi/ \
-                ~/.zshrc \
-                ~/.ccache/ccache.conf \
                 ~/.local/bin/cadd \
                 ~/.local/bin/cinstall \
                 ~/.local/bin/cap \
@@ -26,12 +22,16 @@ else
                 ~/.local/share/chezmoi \
                 ~/.local/bin/yabai_reload \
                 ~/.local/bin/run_wasm_test_suite.py \
-                ~/.config/kitty/kitty.conf \
+                ~/.zshrc \
+                ~/.ccache/ccache.conf \
                 ~/.tmux.conf \
                 ~/.config/tmux/switch-recent-session.sh \
                 ~/.lldbinit \
                 ~/.gitconfig \
                 ~/.gitconfig-work \
+                ~/.config/nvim \
+                ~/.config/kitty/kitty.conf \
+                ~/.config/hypr/hyprland.conf \
                 ~/.config/skhd/skhdrc \
                 ~/.config/yabai/yabairc; do
                 if test -e "$path"; then
