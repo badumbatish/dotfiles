@@ -45,13 +45,13 @@ end, { desc = "Open matching source file in current buffer" })
 
 vim.keymap.set("n", "gd", vim.lsp.buf.definition, { noremap = true, silent = true, desc = "Go to implementation" })
 
-vim.keymap.set("n", "M", function()
-  vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.ERROR })  -- backwards
-end, { silent = true, desc = "Go to previous diagnostic" })
-
-vim.keymap.set("n", "m", function()
-  vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.ERROR })  -- forwards
-end, { silent = true, desc = "Go to next diagnostic" })
+-- vim.keymap.set("n", "M", function()
+--   vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.ERROR })  -- backwards
+-- end, { silent = true, desc = "Go to previous diagnostic" })
+--
+-- vim.keymap.set("n", "m", function()
+--   vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.ERROR })  -- forwards
+-- end, { silent = true, desc = "Go to next diagnostic" })
 
 
 vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename,

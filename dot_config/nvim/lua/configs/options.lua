@@ -4,6 +4,7 @@ vim.opt.mouse = "a"
 vim.cmd("set clipboard+=unnamedplus")
 
 
+-- vim.o.switchbuf = "useopen,usetab,split"
 vim.opt.relativenumber = true
 vim.opt.number         = true
 
@@ -13,7 +14,6 @@ vim.opt.softtabstop    = 4
 vim.opt.shiftwidth     = 2
 -- vim.opt.expandtab      = true
 vim.opt.incsearch      = true
-
 
 vim.opt.spell          = false
 

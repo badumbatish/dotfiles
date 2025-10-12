@@ -38,7 +38,7 @@ return {
             { "location",
               colored = true,
               use_mode_colors = true,
-          },
+            },
           },
           lualine_c = { {
             'filename',
