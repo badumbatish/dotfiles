@@ -28,5 +28,4 @@ require('lazy').setup({
     },
 })
 
-require('pqf').setup()
 vim.opt.cursorline = true
