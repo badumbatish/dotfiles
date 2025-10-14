@@ -28,6 +28,16 @@ return {
         require('fzf-lua').setup({
           'telescope',
           "hide",
+          fzf_opts = {
+              ["--color"] = table.concat({
+                "marker:#87ff00",
+              }, ","),
+              ["--prompt"] = "> ",
+              ["--marker"] = "+",
+              ["--pointer"] = "◆",
+              ["--separator"] = "─",
+              ["--scrollbar"] = "│",
+            },
           winopts = {
             -- split = "belowright new",-- open in a split instead?
             -- "belowright new"  : split below

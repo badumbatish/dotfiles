@@ -5,6 +5,7 @@ return {
 	dev = { true },
         dependencies = {
           "ibhagwan/fzf-lua",  -- add fzf-lua as a dependency
+          "kkharji/sqlite.lua"
         },
 	-- @t
 	config = function()
