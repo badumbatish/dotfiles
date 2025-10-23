@@ -27,6 +27,20 @@ return {
           theme = 'ayu',
 
         },
+
+        extensions = {
+          'oil',
+          {
+            sections = {
+              lualine_a = {
+                function()
+                  return 'Quickfix List'
+                end
+              },
+            },
+            filetypes = {'qf'}
+          }
+        },
         sections = {
           lualine_a = {
             'mode', 'branch' },

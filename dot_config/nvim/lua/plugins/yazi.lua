@@ -1,4 +1,10 @@
----@type LazySpec
+local preview_on = false
+
+local function set_preview(callback) 
+  if preview_on == false then
+    callback()
+  end
+end
 return
 {
     'stevearc/oil.nvim',
@@ -22,6 +28,17 @@ return
                 actions.select.callback({ tab = true })
             end
         end
+        vim.api.nvim_create_autocmd("User", {
+          pattern = "OilEnter",
+          callback = vim.schedule_wrap(function(args)
+            if vim.api.nvim_get_current_buf() == args.data.buf and oil.get_cursor_entry() then
+              oil.open_preview({
+                split = "botright"
+              })
+            end
+          end),
+        })
+
         require("oil").setup({
             columns = {
                 "icon",
@@ -41,6 +58,11 @@ return
                 ["h"] = { "actions.parent", mode = "n" },
                 ["<CR>"] = { callback = smart_select },
                 ["l"] = { callback = smart_select },
+                -- Window navigation with Ctrl+hjkl
+                ["<C-h>"] = { callback = function() vim.cmd("wincmd h") end, desc = "Move to left window" },
+                ["<C-j>"] = { callback = function() vim.cmd("wincmd j") end, desc = "Move to bottom window" },
+                ["<C-k>"] = { callback = function() vim.cmd("wincmd k") end, desc = "Move to top window" },
+                ["<C-l>"] = { callback = function() vim.cmd("wincmd l") end, desc = "Move to right window" },
             },
             view_options = {
                 -- Show files and directories that start with "."

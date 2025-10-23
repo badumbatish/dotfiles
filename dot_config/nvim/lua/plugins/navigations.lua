@@ -738,6 +738,7 @@ return {
         vim.keymap.set("n", "<leader>fg",
           fzf_lua.live_grep_native, { desc = "Find words" })
         vim.keymap.set('n', '<leader>fb', fzf_lua.oldfiles, { desc = "Find buffers" })
+        vim.keymap.set('n', '<leader>e', fzf_lua.oldfiles, { desc = "Find buffers" })
         vim.keymap.set('n', '<leader>fh', fzf_lua.help_tags, { desc = "Find help tags" })
         vim.keymap.set('n', '/', fzf_lua.blines, { desc = "Find in current buffer (smart fallback if not on-disk file)" })
 
@@ -747,7 +748,6 @@ return {
         vim.keymap.set('n', '<leader>fo', fzf_lua.lsp_outgoing_calls,
           { desc = "fzf-lua search incoming call " })
         vim.keymap.set('n', '<leader>fm', fzf_lua.marks, { desc = "fzf-lua marks" })
-        vim.keymap.set('n', '<leader>fp', fzf_lua.search_history, { desc = "fzf-lua search history" })
         vim.keymap.set('n', '<leader>fd', fzf_lua.lsp_finder, { desc = "LSP search diagnostics" })
 
         vim.keymap.set("n", "<leader>gw", fzf_lua.grep_cword,

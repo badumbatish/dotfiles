@@ -24,7 +24,7 @@ def run_gh_command(cmd: list[str]) -> str:
 
 
 def get_since_date() -> str:
-    today = datetime.today() 
+    today = datetime.yesterday()
     # Monday = 0, Sunday = 6
     days_since_monday = today.weekday()
     since_date = today - timedelta(days=days_since_monday)
