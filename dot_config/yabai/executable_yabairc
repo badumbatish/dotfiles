@@ -37,7 +37,7 @@ yabai -m config                                 \
     bottom_padding               12             \
     left_padding                 12             \
     right_padding                12             \
-    window_gap                   06             \
+    window_gap                   02             \
     layout                       bsp            \
     mouse_modifier               fn             \
     mouse_action1                move           \
@@ -65,4 +65,4 @@ echo "yabai configuration loaded.."
 # sudo yabai --load-sa
 # skhd --restart-service
 
-borders active_color=0xff29ADff inactive_color=0xff494d64 width=5.0 &
+borders active_color=0xff29ADff inactive_color=0xff494d64 width=3.0 &
