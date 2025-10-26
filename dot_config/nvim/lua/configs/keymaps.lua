@@ -120,16 +120,6 @@ vim.keymap.set("x", "<leader>ys", function()
   end)
 end, { desc = "Yank current selection to the scratch/ folder" })
 
-local function delete_quickfix_entry()
-  local qf = vim.fn.getqflist()
-  local line = vim.fn.line(".")
-  table.remove(qf, line)
-  vim.fn.setqflist({}, "r", { items = qf })
-  vim.cmd.copen() -- refresh the list visually
-end
-
-vim.keymap.set("n", "dd", delete_quickfix_entry, { buffer = true, desc = "Delete quickfix entry" })
-
 vim.keymap.set("n", "qq", function()
   local pos = vim.api.nvim_win_get_cursor(0)
   local item = {
