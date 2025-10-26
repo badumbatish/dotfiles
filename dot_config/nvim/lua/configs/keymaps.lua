@@ -29,8 +29,36 @@ keymap("n", "<leader>S", "<cmd>w<CR>", opts)
 keymap("n", "zz", ":qa!<CR>", opts)
 keymap("n", "<leader>n", ":Navbuddy<CR>", opts)
 
-keymap("n", "n", "<cmd>cnext<CR>", opts)
-keymap("n", "m", "<cmd>cprev<CR>", opts)
+-- Smart quickfix navigation: jump to item if only 1, otherwise cnext/cprev with cycling
+keymap("n", "n", function()
+  local qf_list = vim.fn.getqflist()
+  if #qf_list == 0 then
+    return
+  elseif #qf_list == 1 then
+    vim.cmd('cc 1')
+  else
+    local ok = pcall(vim.cmd, 'cnext')
+    if not ok then
+      -- Reached the end, cycle to first
+      vim.cmd('cfirst')
+    end
+  end
+end, opts)
+
+keymap("n", "m", function()
+  local qf_list = vim.fn.getqflist()
+  if #qf_list == 0 then
+    return
+  elseif #qf_list == 1 then
+    vim.cmd('cc 1')
+  else
+    local ok = pcall(vim.cmd, 'cprev')
+    if not ok then
+      -- Reached the beginning, cycle to last
+      vim.cmd('clast')
+    end
+  end
+end, opts)
 
 vim.keymap.set("x", "<leader>lr", function()
   local selected = utils.extract_vis_text()
