@@ -170,6 +170,7 @@ vim.keymap.set('n', '<leader>yl', utils.yank_file_with_location,
   { desc = 'Copy full path of current buffer to clipboard' })
 vim.keymap.set('n', '<leader>yg', utils.yank_all_in_buffer, { desc = 'Yank whole file and restore cursor position' })
 vim.keymap.set('n', '<leader>ya', utils.yank_all_in_buffer, { desc = 'Yank whole file and restore cursor position' })
+vim.keymap.set('n', '<leader>va', 'ggVG', { desc = "Select everything in file" })
 vim.keymap.set('t', '<leader>gx',
   function()
     vim.cmd("stopinsert")
