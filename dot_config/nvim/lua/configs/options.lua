@@ -15,7 +15,7 @@ vim.opt.shiftwidth     = 2
 vim.opt.incsearch      = true
 
 vim.opt.spell          = false
-
+vim.opt.jumpoptions = "stack,view"
 vim.opt.termguicolors  = true
 vim.opt.syntax         = "on"
 

@@ -120,6 +120,29 @@ vim.keymap.set("x", "<leader>ys", function()
   end)
 end, { desc = "Yank current selection to the scratch/ folder" })
 
+local function delete_quickfix_entry()
+  local qf = vim.fn.getqflist()
+  local line = vim.fn.line(".")
+  table.remove(qf, line)
+  vim.fn.setqflist({}, "r", { items = qf })
+  vim.cmd.copen() -- refresh the list visually
+end
+
+vim.keymap.set("n", "dd", delete_quickfix_entry, { buffer = true, desc = "Delete quickfix entry" })
+
+vim.keymap.set("n", "qq", function()
+  local pos = vim.api.nvim_win_get_cursor(0)
+  local item = {
+    filename = vim.api.nvim_buf_get_name(0),
+    lnum = pos[1],
+    col = pos[2] + 1,
+    text = vim.fn.getline("."),
+  }
+
+  vim.fn.setqflist({}, 'a', { items = { item } })
+  vim.notify(string.format("Added %s:%d to quickfix", item.filename, item.lnum))
+end, { desc = "Add current cursor location to quickfix list" })
+
 vim.keymap.set('n', '<leader>yc', utils.yank_for_conditional_break,
   { desc = 'Set up conditional breakpoint for a variable' })
 vim.keymap.set('n', '<leader>yf', utils.yank_full_file, { desc = 'Copy full path of current buffer to clipboard' })

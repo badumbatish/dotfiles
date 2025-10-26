@@ -12,32 +12,15 @@
     sts = status 
     co = checkout
     cb = checkout -b
+    cm = commit -m
+
     p = "!f() { git checkout \"$(git branch | fzf | sed 's/^..//')\"; }; f"
     ds = diff --staged
-
-
-    commit-with-prefix = "!f() { \
-        prefix=$1; \
-        shift; \
-        if [ $# -eq 0 ]; then \
-            echo \"Enter the git commit $prefix description: \"; \
-            read description; \
-        else \
-            description=\"$*\"; \
-        fi; \
-        git commit -m \"$prefix: $description\"; \
-    }; f"
-
-    cm = commit -m
-    aoe = "!git commit --amend --no-edit"
     dh = diff HEAD~1 HEAD
-    fix = "!git commit-with-prefix FIX"
-    feat = "!git commit-with-prefix FEAT"
-    docs = "!git commit-with-prefix DOCS"
-    refactor = "!git commit-with-prefix REFACTOR"
-    style = "!git commit-with-prefix STYLE"
-    test = "!git commit-with-prefix TEST"
-    ci = "!git commit-with-prefix CI/CD"
+
+    rc = rebase --continue
+    ra = rebase --abort
+    aoe = "!git commit --amend --no-edit"
     brsel = "!git branch | fzf | pbcopy"
 [init]
 	defaultBranch = main

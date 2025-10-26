@@ -16,6 +16,10 @@ return {
 
       })
     end
+  }, -- For `plugins/helpview.lua` users.
+  {
+    "OXY2DEV/helpview.nvim",
+    lazy = false
   },
   {
     -- SHOWS STATUS LINE AT THE BOTTOM
@@ -38,7 +42,7 @@ return {
                 end
               },
             },
-            filetypes = {'qf'}
+            filetypes = { 'qf' }
           }
         },
         sections = {
