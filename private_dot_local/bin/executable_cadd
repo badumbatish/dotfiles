@@ -8,7 +8,7 @@ git rm -rf dot_config/nvim
 chezmoi add ~/.gitconfig
 
 # INFO: Tmux
-chezmoi add ~/.tmux.conf
+chezmoi add ~/.tmux.conf ~/.config/tmux/switch-recent-session.sh
 
 # INFO: Neovim config
 chezmoi add ~/.config/nvim
