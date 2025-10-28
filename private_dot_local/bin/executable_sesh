@@ -27,6 +27,7 @@ else
                 ~/.local/bin/run_wasm_test_suite.py \
                 ~/.config/kitty/kitty.conf \
                 ~/.tmux.conf \
+                ~/.config/tmux/switch-recent-session.sh \
                 ~/.lldbinit \
                 ~/.gitconfig \
                 ~/.gitconfig-work \
