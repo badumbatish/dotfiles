@@ -161,6 +161,9 @@ vim.keymap.set("n", "qq", function()
   vim.notify(string.format("Added %s:%d to quickfix", item.filename, item.lnum))
 end, { desc = "Add current cursor location to quickfix list" })
 
+vim.keymap.set("n", "?", "gcc", { remap = true, desc = "Toggle comment on current line" })
+vim.keymap.set("v", "?", "gc", { remap = true, desc = "Toggle comment on selection" })
+
 vim.keymap.set('n', '<leader>yc', utils.yank_for_conditional_break,
   { desc = 'Set up conditional breakpoint for a variable' })
 vim.keymap.set('n', '<leader>yf', utils.yank_full_file, { desc = 'Copy full path of current buffer to clipboard' })
