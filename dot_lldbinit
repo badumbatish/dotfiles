@@ -1,2 +1,7 @@
+
+settings set frame-format "frame #${frame.index}:{ ${frame.no-debug}${frame.pc}}{ ${module.file.basename}{`${function.name-with-args}{${frame.no-debug}${function.pc-offset}}}}{ at ${line.file.fullpath}:${line.number}}{${function.is-optimized} [opt]}\n"
+
 script
-"llvm-project" in os.getcwd() and lldb.debugger.HandleCommand("command script import llvm/utils/lldbDataFormatters.py")
+import os
+if "llvm-project" in os.getcwd():
+    lldb.debugger.HandleCommand("command script import llvm/utils/lldbDataFormatters.py")

@@ -19,6 +19,7 @@ vim.opt.jumpoptions = "stack,view"
 vim.opt.termguicolors  = true
 vim.opt.syntax         = "on"
 
+vim.api.nvim_set_hl(0, 'QuickFixLine', { link = 'CursorLine' })
 vim.diagnostic.config({
     virtual_text = true,
 })
