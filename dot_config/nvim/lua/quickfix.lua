@@ -19,7 +19,6 @@ end
 
 function M.undo()
   local s = current_state()
-  local qf = vim.fn.getqflist()
   local prev = table.remove(s.undo)
   if not prev then return vim.notify("Nothing to undo") end
   table.insert(s.redo, snapshot())
@@ -28,7 +27,6 @@ end
 
 function M.redo()
   local s = current_state()
-  local qf = vim.fn.getqflist()
   local next = table.remove(s.redo)
   if not next then return vim.notify("Nothing to redo") end
   table.insert(s.undo, snapshot())

@@ -87,6 +87,7 @@ return {
               -- float:  in-window floating border
               -- border: in-border "block" marker
               scrolloff    = -1, -- float scrollbar offset from right
+              last_cursor = true,
               -- applies only when scrollbar = 'float'
               delay        = 20, -- delay(ms) displaying the preview
               -- prevents lag on fast scrolling

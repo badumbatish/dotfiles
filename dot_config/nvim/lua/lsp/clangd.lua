@@ -64,7 +64,7 @@ end
 return {
     cmd = {
       configs.prebuilt_llvm_bin .. '/clangd',
-        '--j=6', '--clang-tidy', '--background-index', '--pch-storage=memory'},
+        '--j=2', '--clang-tidy', '--background-index', '--pch-storage=memory'},
     filetypes = { '.', 'c', 'cpp', 'objc', 'objcpp', 'cuda', 'proto' },
     root_markers = {
         '.clangd',
