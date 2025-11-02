@@ -38,7 +38,7 @@ else
                     echo "$path"
                 fi
             done
-        ) | fzf
+        ) | fzf --height 50% --min-height 10 --layout=reverse --border --margin '10%,20%'
     )
 fi
 
