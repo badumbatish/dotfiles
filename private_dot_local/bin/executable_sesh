@@ -23,6 +23,7 @@ else
                 ~/.local/bin/cap \
                 ~/.local/bin/cpush \
                 ~/.local/bin/sesh \
+                ~/.local/share/chezmoi \
                 ~/.local/bin/yabai_reload \
                 ~/.local/bin/run_wasm_test_suite.py \
                 ~/.config/kitty/kitty.conf \
