@@ -20,7 +20,7 @@ shift + cmd - n : yabai -m window --space next; yabai -m space --focus next
 
 cmd - 1 : yabai -m window --focus app="Google Chrome" || open -a "Google Chrome"
 cmd - 2 : yabai -m window --focus app="Kitty" || open -a "Kitty"
-cmd - 3: yabai -m space --focus 3
+cmd - 3 : yabai -m window --focus app="Discord" || open -a "Discord"
 cmd - 4: yabai -m space --focus 4
 
 cmd + shift - 1 : yabai -m window --space 1; yabai -m space --focus 1
