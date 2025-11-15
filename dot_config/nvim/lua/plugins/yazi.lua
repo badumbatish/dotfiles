@@ -35,9 +35,15 @@ return
               oil.open_preview({
                 split = "botright"
               })
-            end
-          end),
-        })
+            vim.schedule(function()
+                    local total = vim.o.columns
+                    local target = math.floor(total * 0.75)
+                    vim.cmd("vertical resize " .. target)
+                    vim.cmd("wincmd p")              -- go back to previous window
+                  end)
+                        end
+                      end),
+                    })
 
         require("oil").setup({
             columns = {
