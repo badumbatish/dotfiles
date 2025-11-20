@@ -8,7 +8,7 @@ if sysname == "Darwin" then
   -- macOS
   M.llvm_bin = "/Users/jjasmine/Developer/igalia/llvm-project/build/bin/"
   M.clangir_repo = "/Users/jjasmine/Developer/igalia/clangir/"
-  M.prebuilt_llvm_bin = "/Users/jjasmine/Developer/LLVM-21.1.2-macOS-X64/bin/"
+  M.prebuilt_llvm_bin = "/Users/jjasmine/Developer/igalia/LLVM-20.1.7-macOS-ARM64/bin"
 elseif sysname == "Linux" then
   -- Linux
   M.llvm_bin = "/home/jjasmine/Developer/igalia/llvm-project/build/bin/"

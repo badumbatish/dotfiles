@@ -13,11 +13,10 @@ vim.lsp.set_log_level(4)
 for _, name in ipairs(language_servers) do
   local ok, config = pcall(require, "lsp." .. name)
   if ok then
-    vim.lsp.config[name] = config
-    vim.lsp.enable(name)
-  else
-    vim.lsp.enable(name)
+    vim.lsp.enable(name, false)         -- reset default
+    vim.lsp.config[name] = config -- register override
   end
+  vim.lsp.enable(name, true)            -- now apply
 end
 
 -- vim.lsp.enable("clangd")
