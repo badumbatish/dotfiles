@@ -5,6 +5,18 @@ if [[ $# -eq 1 ]]; then
 else
     selected=$(
         (
+
+            ### Add SSH hosts into fzf menu
+            if [[ -f ~/.ssh/config ]]; then
+                awk '
+                    $1 == "Host" && NF > 1 {
+                        for (i = 2; i <= NF; i++)
+                            print "ssh://" $i
+                    }
+                ' ~/.ssh/config
+            fi
+
+
             for dir in ~/Developer/github ~/Developer/igalia ~/projects ~/Developer/nvim_proj ; do
                 if test -d "$dir"; then
                     # Only find directories, no recursion into subdirectories
@@ -40,15 +52,6 @@ else
                 fi
             done
 
-            ### Add SSH hosts into fzf menu
-            if [[ -f ~/.ssh/config ]]; then
-                awk '
-                    $1 == "Host" && NF > 1 {
-                        for (i = 2; i <= NF; i++)
-                            print "ssh://" $i
-                    }
-                ' ~/.ssh/config
-            fi
         ) | fzf 
     )
 fi
