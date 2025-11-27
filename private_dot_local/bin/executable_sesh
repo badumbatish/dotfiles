@@ -19,6 +19,7 @@ else
                 ~/.local/bin/cap \
                 ~/.local/bin/cpush \
                 ~/.local/bin/sesh \
+                ~/.local/bin/git_investigate \
                 ~/.local/share/chezmoi \
                 ~/.local/bin/yabai_reload \
                 ~/.local/bin/run_wasm_test_suite.py \
@@ -38,6 +39,16 @@ else
                     echo "$path"
                 fi
             done
+
+            ### Add SSH hosts into fzf menu
+            if [[ -f ~/.ssh/config ]]; then
+                awk '
+                    $1 == "Host" && NF > 1 {
+                        for (i = 2; i <= NF; i++)
+                            print "ssh://" $i
+                    }
+                ' ~/.ssh/config
+            fi
         ) | fzf 
     )
 fi
@@ -49,6 +60,7 @@ fi
 selected_name=$(basename "$selected" | tr . _)
 tmux_running=$(pgrep tmux)
 
+
 # Start tmux if it is not running
 if test -z "$tmux_running"; then
     tmux new-session -d
@@ -58,29 +70,58 @@ fi
 if ! tmux has-session -t="$selected_name" 2>/dev/null; then
     tmux new-session -d -s "$selected_name" -c "$selected"
 
-    # If it's a file, open it in nvim
-    if test -f "$selected"; then
-        tmux send-keys -t 0 "nvim \"$selected\"" C-j
-    else
-        # Otherwise, it's a directory, so open a terminal window
-        tmux new-window -c "$selected" -n "terminal_${selected_name}"
+ ###############################################
+    # SSH "DIRECTORY" MODE (3 pane remote layout)
+    ###############################################
+    if [[ $selected == ssh://* ]]; then
+        host="${selected#ssh://}"
 
-        # Split the window vertically (main pane on left)
-        tmux split-window -h -c "$selected" -l 33%
+        # Pane 0 = remote nvim
+        tmux send-keys -t "$selected_name".0 "ssh $host" C-j
+        tmux send-keys -t "$selected_name".0 "nvim ." C-j
 
-        # Split the right pane horizontally
-        tmux split-window -v -c "$selected"
-        # Select the main (left) pane
-        tmux select-pane -t 0
+        # Create window with panes
+        tmux new-window -t "$selected_name" -n "remote" "ssh $host"
+        tmux split-window -h -t "$selected_name:remote" "ssh $host"
+        tmux split-window -v -t "$selected_name:remote.1" "ssh $host"
 
-        tmux select-window -t 0
-        tmux send-keys -t 1.0 'git status' C-j
-        tmux send-keys -t 1.1 'ls' C-j
+        # Right-top: git status
+        tmux send-keys -t "$selected_name:remote.1" "git status" C-j
 
-        tmux send-keys -t 0 'nvim .' C-j 
+        # Right-bottom: ls
+        tmux send-keys -t "$selected_name:remote.2" "ls" C-j
+
+        tmux select-pane -t "$selected_name:remote.0"
+        exit_code=0
+    ###############################################
+    # FILE MODE
+    ###############################################
+    elif [[ -f $selected ]]; then
+        dir=$(dirname "$selected")
+        tmux send-keys -t "$selected_name" "cd \"$dir\" && nvim \"$selected\"" C-j
+    ###############################################
+    # DIRECTORY MODE (local)
+    ###############################################
+    elif [[ -d $selected ]]; then
+        tmux send-keys -t "$selected_name" "cd \"$selected\"" C-j
+
+        tmux new-window -t "$selected_name" -c "$selected" -n "dev"
+        tmux split-window -h -c "$selected" -t "$selected_name:dev" -l 33%
+        tmux split-window -v -c "$selected" -t "$selected_name:dev.1"
+
+        tmux select-pane -t "$selected_name:dev.0"
+
+        tmux send-keys -t "$selected_name:dev.1" "git status" C-j
+        tmux send-keys -t "$selected_name:dev.2" "ls" C-j
+        tmux send-keys -t "$selected_name:dev.0" "nvim ." C-j
     fi
 fi
 
+
+
+### -------------------------------------
+###  ATTACH / SWITCH
+### -------------------------------------
 # Check if we have active clients when inside tmux
 if test -z "$TMUX" || test -z "$(tmux list-clients)"; then
     tmux attach-session -t "$selected_name"

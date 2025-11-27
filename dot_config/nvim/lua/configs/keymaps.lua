@@ -29,6 +29,15 @@ keymap("n", "<leader>S", "<cmd>w<CR>", opts)
 keymap("n", "zz", ":qa!<CR>", opts)
 keymap("n", "<leader>n", ":Navbuddy<CR>", opts)
 
+
+vim.keymap.set("n", "<leader>fx", function()
+  local file = vim.fn.expand("%:p")
+  if file ~= "" then
+    vim.fn.system({ "chmod", "+x", file })
+    print("Made executable: " .. file)
+  end
+end, { desc = "Make current file executable" })
+
 -- Smart quickfix navigation: jump to item if only 1, otherwise cnext/cprev with cycling
 keymap("n", "n", function()
   local qf_list = vim.fn.getqflist()
