@@ -1,4 +1,4 @@
-The bleeding edge version of this dotfile has been moved to [codeberg](https://codeberg.org/badumbatish) and privatized due to propietary company projects.
+The bleeding edge compiler-related version of this dotfile has been moved to [codeberg](https://codeberg.org/badumbatish) and privatized due to propietary company projects.
 
 You're still welcome to inherit the repo's ideas as well as the [blog](https://badumbatish.github.io/posts/jasmine_in_llvm_land_and_config) whenver you see fit :)
 
